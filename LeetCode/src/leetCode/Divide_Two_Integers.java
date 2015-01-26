@@ -26,16 +26,16 @@ public class Divide_Two_Integers {
         long result=1;
         if(divisor==1)
         	result=dividend;
-        long temp=divisor*2;
+        long temp=divisor<<2;
         
         while(temp<=dividend)
         {
-        	result=result*2;
-        	temp=temp*2;
+        	result=result<<2;
+        	temp=temp<<2;
         }
-        if(temp>dividend&&temp>divisor*2)
+        if(temp>dividend&&temp>divisor<<2)
         {
-        	temp=temp/2;
+        	temp=temp>>2;
         	result+=divi(dividend-temp, divisor);
         }
         
