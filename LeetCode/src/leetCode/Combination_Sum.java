@@ -9,11 +9,12 @@ public class Combination_Sum {
     public List<List<Integer>> combinationSum(int[] candidates, int target) {
         List<List<Integer>> result=new ArrayList<>();
         Arrays.sort(candidates);
-        List<Integer> temp=new ArrayList<Integer>();
+        
         for(int i=0;i<candidates.length&&target>=candidates[i];i++)
         {
         	if(candidates[i]==target)
         	{
+        		List<Integer> temp=new ArrayList<Integer>();
         		temp.add(candidates[i]);
         		if(!result.contains(temp))
         			result.add(temp);

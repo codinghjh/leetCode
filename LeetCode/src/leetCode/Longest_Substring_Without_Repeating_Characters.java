@@ -1,10 +1,4 @@
 package leetCode;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 public class Longest_Substring_Without_Repeating_Characters {
     public int lengthOfLongestSubstring(String s) {
         boolean[] isExist=new boolean[256];

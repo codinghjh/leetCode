@@ -1,122 +1,75 @@
 package leetCode;
-
-import java.util.ArrayList;
-import java.util.List;
-
   public class Median_of_Two_Sorted_Arrays {
-
-	    public double findMedianSortedArrays(int A[], int B[]) {
-	        List<Integer> list=new ArrayList<>();
-	        int i=0,j=0;
-	        if(A.length==0&&B.length!=0)
-	          {
-	          	if(B.length%2==1)
-	          		return B[B.length/2];
-	          	else {
-	  				return ((double)B[B.length/2]+B[B.length/2-1])/2;
-	  			}
-	          }
-	          	
-	          if(A.length!=0&&B.length==0)
-	          {
-	          	if(A.length%2==1)
-	          		return A[A.length/2];
-	          	else {
-	  				return ((double)A[A.length/2]+A[A.length/2-1])/2;
-	  			}
-	          }
-	        for(i=0,j=0;i<A.length&&j<B.length;)
-	        {
-	        	if(A[i]<B[j])
-	        	{
-	        		list.add(A[i++]);
-	        	}
-	        	else {
-					list.add(B[j++]);
-				}
-	        }
-	        if(i==A.length)
-	        {
-	        	for(;j<B.length;j++)
-	        		list.add(B[j]);
-	        }
+	  public static void main(String[] args) {
+		int[] A={1,1};
+		int[] B={1,2};
+		System.out.println(new Median_of_Two_Sorted_Arrays().findMedianSortedArrays(A, B));
+	}
+    public double findMedianSortedArrays(int A[], int B[]) {
+	        if((A.length+B.length)%2==1)
+	        	return findK(A, B, (A.length+B.length)/2+1);
 	        else {
-				for(;i<A.length;i++)
-				list.add(A[i]);
-			}
-	        if((A.length+B.length)%2==0)
-	        {
-	        	return ((double)list.get((A.length+B.length)/2)+list.get((A.length+B.length)/2-1))/2;
-	        }
-	        else {
-				return list.get((A.length+B.length)/2);
+				return (findK(A, B, (A.length+B.length)/2)+findK(A, B, (A.length+B.length)/2+1))/2;
 			}
 	    }
+	    public double findK(int A[], int B[],int k)
+	    {
+	    	double kth=0.0;
+	    	int divideA=0,divideB=0;
 
-//    public double findMedianSortedArrays(int A[], int B[]) {
-//        int midA=0,midB=0;
-//        double middle=0.0;
-//        if(A.length==0&&B.length!=0)
-//        {
-//        	if(B.length%2==1)
-//        		return B[B.length/2];
-//        	else {
-//				return ((double)B[B.length/2]+B[B.length/2-1])/2;
-//			}
-//        }
-//        	
-//        if(A.length!=0&&B.length==0)
-//        {
-//        	if(A.length%2==1)
-//        		return A[A.length/2];
-//        	else {
-//				return ((double)A[A.length/2]+A[A.length/2-1])/2;
-//			}
-//        }
-//        if(A.length==1&&B.length==1)
-//        {
-//        	return (A[0]<B[0]? A[0]:B[0]);
-//        }
-//        midB=B.length/2;
-//        if(A[A.length/2]<B[B.length/2])
-//        {
-//        	if(A.length%2==0)
-//        		midA=A.length/2;
-//        	else {
-//				midA=A.length/2+1;
-//			}
-//        		midB=B.length/2;
-//        	int[] subA=new int[A.length/2];
-//        	int[] subB=new int[B.length/2];
-//        	for(int i=0,j=midA;i<subA.length&&j<A.length;i++,j++)
-//        	{
-//        		subA[i]=A[j];
-//        	}
-//        	for(int i=0,j=0;i<subB.length&&j<midB;j++,i++)
-//        	{
-//        		subB[i]=B[j];
-//        	}
-//        	middle=findMedianSortedArrays(subA, subB);
-//        }
-//        else {
-//        	if(B.length%2==0)
-//        		midB=B.length/2;
-//        	else {
-//				midB=B.length/2+1;
-//			}
-//        		midA=A.length/2;
-//        	int[] subA=new int[A.length/2];
-//        	int[] subB=new int[B.length/2];
-//        	for(int i=0,j=midB;i<subB.length&&j<B.length;i++,j++)
-//        	{
-//        		subB[i]=B[j];
-//        	}
-//        	for(int i=0,j=0;i<subA.length&&j<midA;j++,i++)
-//        	{
-//        		subA[i]=A[j];
-//        	}
-//        	middle=findMedianSortedArrays(subA, subB);
-//		}
-//        return middle;
-//    }
-}
+	    	if(A.length==0)
+	    		return B[k-1];
+	    	if(B.length==0)
+	    		return A[k-1];
+	    	if(k==1)
+	    		return Math.min(A[0], B[0]);
+	    	if(A.length==1&&B.length==1)
+	    		return ((double)A[0]+B[0])/2;
+	    	divideA=Math.min(k/2+1, A.length);
+	    	divideB=Math.min(k/2+1, B.length);
+	    	if(A[divideA-1]==B[divideB-1])
+	    		return A[divideA-1];
+	    	if(A[divideA-1]<B[divideB-1])
+	    	{
+	    		int[] subA=new int[A.length-divideA+1];
+	    		int[] subB=new int[divideB];
+	    		if(subA.length!=0)
+	    		{
+	    			for(int j=0,i=divideA-1;i<A.length&&j<subA.length;i++,j++)
+	    			{
+	    				subA[j]=A[i];
+	    			}
+	    		}
+	    		if(subB.length!=0)
+	    		{
+	    			for(int j=0,i=0;i<divideB&&j<subB.length;i++,j++)
+	    			{
+	    				subB[j]=B[i];
+	    			}
+	    		}
+	    		
+	    		kth=findK(subA, subB, k-divideA+1);
+	    	}
+	    	else {
+	    		int[] subB=new int[B.length-divideB+1];
+	    		int[] subA=new int[divideA];
+	    		if(subB.length!=0)
+	    		{
+	    			for(int j=0,i=divideB-1;i<B.length&&j<subB.length;i++,j++)
+	    			{
+	    				subB[j]=B[i];
+	    			}
+	    		}
+	    		if(subA.length!=0)
+	    		{
+	    			for(int j=0,i=0;i<divideA&&j<subA.length;i++,j++)
+	    			{
+	    				subA[j]=A[i];
+	    			}
+	    		}
+	    		
+	    		kth=findK(subA, subB, k-divideA+1);
+			}
+	    	return kth;
+	    }
+	    }
